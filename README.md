@@ -40,7 +40,7 @@
     * nvidia-docker run -v /home/patrick/datasets/:/datasets -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY  -v /usr/lib/nvidia-384:/usr/lib/nvidia-384 -v /usr/lib32/nvidia-384:/usr/lib32/nvidia-384 --privileged --device /dev/dri -it marsvins
 
 
-* Run the example algorithm with MARS data
+* Run the example algorithm with MARS data (*run these inside of the docker container*)
     * /docker_build.sh
     * /docker_run.sh
     * rosrun mars_vins example_app_equidistant /datasets/mars/config.txt /datasets/mars/output.txt /datasets/mars/Regular_1/imu_data.txt /datasets/mars/Regular_1/img_data/left/ /datasets/mars/Regular_1/img_data/right/
