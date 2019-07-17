@@ -1,4 +1,68 @@
 # MARS-VINS
+
+## CHANGES MADE IN THIS REPOSITORY
+
+* Build with docker to allow for running on 16.04 ubuntu
+* Add missing build libraries
+* Build using the catkin build system (separate binary for each distortion type)
+* Runs on both the EuRoC mav and TUM-VI datasets
+* Matlab conversion script for cam+imu extrinsics
+* NOTE: there is a visualization bug in the binary
+* NOTE: thus the feature overlay is broken, but estimate is not effected
+
+
+## BUILDING WITH DOCKER
+
+* Install Docker CE [link](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+    * curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    * sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    * sudo apt-get update
+    * sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+
+* Install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) so we can use OpenGL
+    *  curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+    *  distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+    *  curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+    * sudo apt-get update
+    * sudo apt-get install -y nvidia-docker2
+
+* Fix libGL swrast error
+    * We need to allow for the container to get our nvidia driver
+    * Temp fix is [here](https://github.com/jessfraz/dockerfiles/issues/253#issuecomment-373043685)
+    * Need to edit the dockerfile to have the same nvidia-384 driver (change the version number based on your system)
+    * We need to symbolically link our drivers to it
+    * This should allow displaying of gui
+    
+* Build, enable x11, and enter the container
+    * docker build --tag=marsvins .
+    * xhost +"local:docker@"
+    * nvidia-docker run -v /home/patrick/datasets/:/datasets -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY  -v /usr/lib/nvidia-384:/usr/lib/nvidia-384 -v /usr/lib32/nvidia-384:/usr/lib32/nvidia-384 --privileged --device /dev/dri -it marsvins
+
+
+* Run the example algorithm with MARS data
+    * /docker_build.sh
+    * /docker_run.sh
+    * rosrun mars_vins example_app_equidistant /datasets/mars/config.txt /datasets/mars/output.txt /datasets/mars/Regular_1/imu_data.txt /datasets/mars/Regular_1/img_data/left/ /datasets/mars/Regular_1/img_data/right/
+
+
+* To fix no runtime named nvidia
+    * Restart the processes should fix this
+    * sudo systemctl daemon-reload
+    * sudo systemctl restart docker
+
+
+
+
+
+
+---
+---
+---
+
+
+
+
 ## Copyright, Patent & License Notice
 The MARS VINS software is copyrighted by the Regents of the University of
 Minnesota. Use of the software may be covered by at least US patents and

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mars_vins</name>
+  <version>0.0.0</version>
+  <description>The mars_vins package</description>
+
+  <maintainer email="pgeneva@udel.edu">Patrick Geneva</maintainer>
+  <license>Copyrighted by the Regents of the University of Minnesota</license>
+
+  <depend>roscpp</depend>
+  <depend>rosbag</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>cv_bridge</depend>
+  <depend>message_filters</depend>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export> </export>
+
+</package>

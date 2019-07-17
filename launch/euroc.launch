@@ -1,0 +1,33 @@
+<launch>
+
+    <arg name="calib"    default="$(find mars_vins)/config/euroc.txt"/>
+    <arg name="bag"      default="/datasets/eth/V2_02_medium.bag"/>
+    <arg name="output"   default="/datasets/mars/mars_vins_output.txt"/>
+    <arg name="do_save"  default="false"/>
+
+
+    <!-- main estimation ndoe  -->
+    <node pkg="mars_vins" type="ros_serial_radial_tangential" name="mars_vins" output="screen" required="true">
+
+        <param name="calib_file"  type="string" value="$(arg calib)"/>
+        <param name="output_file" type="string" value="output.txt"/>
+
+        <!-- recording of pose to file -->
+        <param name="do_save"     type="bool"   value="$(arg do_save)"/>
+        <param name="record_file" type="string" value="$(arg output)"/>
+
+        <!-- bag topics -->
+        <param name="topic_imu"      type="string" value="/imu0" />
+        <param name="topic_camera0"  type="string" value="/cam0/image_raw" />
+        <param name="topic_camera1"  type="string" value="/cam1/image_raw" />
+
+        <!-- bag parameters -->
+        <param name="path_bag"    type="string" value="$(arg bag)" />
+        <param name="bag_start"   type="double" value="0.0" />
+        <param name="bag_durr"    type="int"    value="-1" />
+
+
+    </node>
+
+
+</launch>

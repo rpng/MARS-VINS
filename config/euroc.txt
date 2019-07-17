@@ -1,0 +1,66 @@
+# Mode for the 2-camera system
+stereo_mode = 2	# 1:Duo, 2:Stereo
+
+
+# IMU Biases
+accel_bias = [0.0,   0.0,   0.0]
+gyro_bias = [0.0,   0.0,   0.0]
+
+
+# Camera Intrinsics
+fc = [458.654, 457.296]
+cc = [367.215, 248.375]
+kc = [-0.28340811, 0.07395907, 0.00019359, 1.76187114e-05, 0.0]
+
+right_fc = [457.587, 456.134]
+right_cc = [379.999, 255.238]
+right_kc = [-0.28368365, 0.07451284, -0.00010473, -3.55590700e-05, 0.00000]
+
+image_dimension = [752, 480]
+
+
+# IMU-Camera Extrinsic
+imu_q_cam = [0.00770718, -0.01049932, -0.70175280, 0.71230146]
+imu_p_cam = [-0.02164015, -0.06467699, 0.00981073]
+imu_q_cam_right = [0.00255024, -0.01532393, -0.70248669, 0.71152732]
+imu_p_cam_right = [-0.01984356, 0.04536894, 0.00786212]
+cam_l_q_cam_r = [0.00704531, -0.00017985, 0.00115733, 0.99997450]
+cam_l_p_cam_r = [0.11007414, -0.00015661, 0.00088938]
+
+
+# IMU Noise [gyro_white-noise_sigma, gyro_bias_sigma, accel_white-noise_sigma, accel_bias_sigma]
+imu_noises = [1.6968e-04, 1.9393e-05, 2.0000e-3, 3.0000e-3]
+
+
+# IMU Intrinsics (optional, can set to false)
+use_imu_intrinsics = false
+accel_q_gyro = [0 0 0 1]
+skew_gyro =  [0 0 0]
+scale_gyro = [1 1 1]
+skew_accel = [0 0 0]
+scale_accel = [1 1 1]
+gyro_g_sensitivity = [0 0 0 0 0 0 0 0 0]
+
+
+# Priors
+prior_extrinsic_position = 30
+prior_extrinsic_orientation = 40
+prior_extrinsic_position_lr = 1e8
+prior_extrinsic_orientation_lr = 1e4
+
+prior_time_sync = 1e6
+prior_velocity = 1e2
+prior_accel_bias = 1e1
+prior_gyro_bias = 1e2
+prior_rolling_shutter = 1e6
+
+
+# Other parameters
+imu_dt = 0.005	# seconds
+
+rolling_shutter_time = 0	# seconds
+
+gravity_magnitude = 9.802
+
+# Sliding window size
+max_number_of_frames = 8
