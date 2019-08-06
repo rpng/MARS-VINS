@@ -114,6 +114,9 @@ namespace MARS {
             img->data = (unsigned char*) malloc(img->width * img->height * sizeof(unsigned char));
             for(int i=0; i<img->height; i++) {
                 for (int j = 0; j < img->width; j++) {
+                    // MONO: a black image so tracking fails on the right
+                    //img->data[i*img->width+j] = 0.0;
+                    // STEREO: use the actual pixel value
                     img->data[i*img->width+j] = imgdata.at<unsigned char>(i,j);
                 }
             }

@@ -10,6 +10,7 @@
 
 #include <thread>
 #include <fstream>
+#include <Eigen/Eigen>
 #include <boost/filesystem.hpp>
 
 #include "ros_driver.h"
@@ -82,8 +83,16 @@ int main(int argc, char** argv)
         mars_vins.GetPose(&pose);
         std::cout << "x: " << pose.global_P_imu[0] << " y: " << pose.global_P_imu[1] << " z: " << pose.global_P_imu[2] << std::endl;
 
+        /// Get position of imu in the global frame
+        Eigen::Vector4d q_GtoI;
+        q_GtoI << pose.imu_q_global[0], pose.imu_q_global[1], pose.imu_q_global[2], pose.imu_q_global[3];
+        Eigen::Vector3d p_IinG;
+        p_IinG << pose.global_P_imu[0], pose.global_P_imu[1], pose.global_P_imu[2];
+
         // Save the current estimate to file if we need to
-        if(do_save) {
+        // NOTE: First couple quats are not valid, i.e. all zero
+        // NOTE: So ensure that the quat norm is near 1 in magnitude to save
+        if(do_save && q_GtoI.norm() > 0.9) {
 
             // timestamp
             outfile.precision(5);
@@ -92,8 +101,8 @@ int main(int argc, char** argv)
 
             // pose
             outfile.precision(6);
-            outfile << pose.global_P_imu[0] << " " << pose.global_P_imu[1] << " " << pose.global_P_imu[2] << " "
-                    << pose.imu_q_global[0] << " " << pose.imu_q_global[1] << " " << pose.imu_q_global[2] << " " << pose.imu_q_global[3] << std::endl;
+            outfile << p_IinG(0) << " " << p_IinG(1) << " " << p_IinG(2) << " "
+                    << q_GtoI(0) << " " << q_GtoI(1) << " " << q_GtoI(2) << " " << q_GtoI(3) << std::endl;
 
         }
 
